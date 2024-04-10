@@ -25,3 +25,12 @@ export interface ThemeContextTypes {
   setThemeFunction: () => void;
   theme: Theme;
 }
+
+export interface AppContextTypes {
+  screenData: string;
+  setScreenData: (value: string) => void;
+  total: number;
+  setTotal: (value: number) => void;
+  appendData: (value: string) => void;
+  deleteData: () => void;
+}

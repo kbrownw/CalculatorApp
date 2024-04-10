@@ -1,6 +1,10 @@
 import { useContext, createContext, useState } from "react";
 import { Theme, ThemeContextTypes } from "../shared/types";
 
+interface Props {
+  children: React.ReactNode;
+}
+
 const darkTheme: Theme = {
   backgrounds: {
     main: "bg-t1-main-bg-dark-blue",
@@ -9,11 +13,11 @@ const darkTheme: Theme = {
   },
   keys: {
     keyOne: "bg-t1-key-bg-dark-blue",
-    keyOneShadow: "t1-key-shadow-dark-blue",
+    keyOneShadow: "shadow-[0_5px_0_0_hsl(224,28%,35%)]",
     toggle: "bg-t1-toggle-bg-red",
-    toggleShadow: "t1-key-shadow-dar-red",
+    toggleShadow: "shadow-[0_5px_0_0_hsl(6,70%,34%)]",
     keyTwo: "bg-t1-key-bg-light-grayish-orange",
-    keyTwoShadow: "t1-key-shadow-grayish-orange",
+    keyTwoShadow: "shadow-[0_5px_0_0_hsl(28,16%,65%)]",
   },
   text: {
     dark: "text-t1-very-dark-grayish-blue",
@@ -29,11 +33,11 @@ const lightTheme: Theme = {
   },
   keys: {
     keyOne: "bg-t2-key-bg-dark-cyan",
-    keyOneShadow: "t2-key-shadow-very-dark-cyan",
+    keyOneShadow: "shadow-[0_5px_0_0_hsl(185,58%,25%)]",
     toggle: "bg-t2-toggle-bg-orange",
-    toggleShadow: "t2-key-shadow-dark-orange",
+    toggleShadow: "shadow-[0_5px_0_0_hsl(25,99%,27%)]",
     keyTwo: "bg-t2-key-bg-light-grayish-yellow",
-    keyTwoShadow: "t2-key-shadow-dark-grayish-orange",
+    keyTwoShadow: "shadow-[0_5px_0_0_hsl(35,11%,61%)]",
   },
   text: {
     dark: "text-t2-very-dark-grayish-yellow",
@@ -49,11 +53,11 @@ const purpleTheme: Theme = {
   },
   keys: {
     keyOne: "bg-t3-key-bg-dark-violet",
-    keyOneShadow: "t3-key-shadow-magenta",
+    keyOneShadow: "shadow-[0_5px_0_0_hsl(285,91%,52%)]",
     toggle: "bg-t3-toggle-bg-cyan",
-    toggleShadow: "t3-key-shadow-cyan",
-    keyTwo: "bg-t3-key-bg-dark-violet",
-    keyTwoShadow: "t3-key-shadow-magenta",
+    toggleShadow: "shadow-[0_5px_0_0_hsl(177,92%,70%)]",
+    keyTwo: "bg-t3-key-bg-very-dark-violet",
+    keyTwoShadow: "shadow-[0_5px_0_0_hsl(290,70%,36%)]",
   },
   text: {
     light: "text-t3-light-yellow",
@@ -95,13 +99,9 @@ export const useThemeContext = () => {
 
   if (!isThemeContext) {
     throw new Error(
-      "useThemeContext must be used inside the ThmeContextWrapper element."
+      "useThemeContext must be used inside the ThemeContextWrapper element."
     );
   }
 
   return isThemeContext;
 };
-
-interface Props {
-  children: React.ReactNode;
-}
