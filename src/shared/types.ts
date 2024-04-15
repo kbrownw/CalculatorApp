@@ -33,4 +33,14 @@ export interface AppContextTypes {
   setTotal: (value: number) => void;
   appendData: (value: string) => void;
   deleteData: () => void;
+  runArithmetic: (
+    value1: number,
+    value2: number,
+    operation: MathOperation["operation"]
+  ) => number;
+  setAndShowTotal: (value: number) => void;
+}
+
+export interface MathOperation {
+  operation: "+" | "-" | "*" | "/";
 }

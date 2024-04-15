@@ -1,11 +1,62 @@
+import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { useThemeContext } from "../context/ThemeContext";
 import Key from "./Key";
+import KeyEqual from "./KeyEqual";
 import KeyWithText from "./KeyWithText";
+import { MathOperation } from "../shared/types";
 
 const Keypad = () => {
-  const { appendData, deleteData } = useAppContext();
+  const {
+    appendData,
+    deleteData,
+    total,
+    setTotal,
+    setScreenData,
+    runArithmetic,
+    setAndShowTotal,
+  } = useAppContext();
+  const [prevTotal, setPrevTotal] = useState(0);
+  const [operation, setOperation] = useState<"+" | "-" | "*" | "/" | null>(
+    null
+  );
+  const [lastKeyPressed, setLastKeyPressed] = useState<string>("");
   const { theme } = useThemeContext();
+
+  const numberPress = (value: string) => {
+    setLastKeyPressed(value);
+    if (operation) {
+      setPrevTotal(total);
+      // This doesn't work
+      if (
+        lastKeyPressed === "+" ||
+        lastKeyPressed === "-" ||
+        lastKeyPressed === "*" ||
+        lastKeyPressed === "/"
+      ) {
+        setAndShowTotal(Number(value));
+      } else {
+        appendData(value);
+      }
+      appendData(value);
+    } else {
+      appendData(value);
+    }
+  };
+
+  const operationFunction = (newOperation: MathOperation["operation"]) => {
+    if (lastKeyPressed !== operation) {
+      if (operation) {
+        setPrevTotal(total);
+        setAndShowTotal(runArithmetic(prevTotal, total, operation));
+        setOperation(newOperation);
+      } else {
+        setPrevTotal(total);
+        setOperation(newOperation);
+      }
+    }
+    setLastKeyPressed(newOperation);
+  };
 
   return (
     <div
@@ -14,19 +65,19 @@ const Keypad = () => {
       <Key
         text="7"
         keyFunction={() => {
-          appendData("7");
+          numberPress("7");
         }}
       />
       <Key
         text="8"
         keyFunction={() => {
-          appendData("8");
+          numberPress("8");
         }}
       />
       <Key
         text="9"
         keyFunction={() => {
-          appendData("9");
+          numberPress("9");
         }}
       />
       <KeyWithText
@@ -38,50 +89,75 @@ const Keypad = () => {
       <Key
         text="4"
         keyFunction={() => {
-          appendData("4");
+          numberPress("4");
         }}
       />
       <Key
         text="5"
         keyFunction={() => {
-          appendData("5");
+          numberPress("5");
         }}
       />
       <Key
         text="6"
         keyFunction={() => {
-          appendData("6");
+          numberPress("6");
         }}
       />
       <Key text="+" keyFunction={() => {}} />
       <Key
         text="1"
         keyFunction={() => {
-          appendData("1");
+          numberPress("1");
         }}
       />
       <Key
         text="2"
         keyFunction={() => {
-          appendData("2");
+          numberPress("2");
         }}
       />
       <Key
         text="3"
         keyFunction={() => {
-          appendData("3");
+          numberPress("3");
         }}
       />
-      <Key text="-" keyFunction={() => {}} />
+      <Key
+        text="-"
+        keyFunction={() => {
+          operationFunction("-");
+        }}
+      />
       <Key text="." keyFunction={() => {}} />
       <Key
         text="0"
         keyFunction={() => {
-          appendData("0");
+          numberPress("0");
         }}
       />
       <Key text="/" keyFunction={() => {}} />
       <Key text="x" keyFunction={() => {}} />
+      <KeyWithText
+        text="RESET"
+        keyFunction={() => {
+          setPrevTotal(0);
+          setTotal(0);
+          setScreenData("0");
+          setOperation(null);
+        }}
+        style={{ gridColumn: "1/ span 2", width: "auto" }}
+      />
+      <KeyEqual
+        text="="
+        keyFunction={() => {
+          if (operation) {
+            setAndShowTotal(runArithmetic(prevTotal, total, operation));
+            setPrevTotal(0);
+            setOperation(null);
+          }
+        }}
+      />
     </div>
   );
 };

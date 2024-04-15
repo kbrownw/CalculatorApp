@@ -8,14 +8,18 @@ interface Props {
 }
 
 const Header = ({ textColor, theme }: Props) => {
-  const { setThemeFunction } = useThemeContext();
+  const { setThemeFunction, selectedTheme } = useThemeContext();
 
   return (
     <div className={`flex justify-between items-end ${textColor}`}>
       <h1 className="leading-[0.75]">calc</h1>
       <div className="flex items-end gap-4">
         <p className="text-xs">THEME</p>
-        <ThemeToggle theme={theme} setThemeFunction={setThemeFunction} />
+        <ThemeToggle
+          theme={theme}
+          setThemeFunction={setThemeFunction}
+          selectedTheme={selectedTheme}
+        />
       </div>
     </div>
   );
