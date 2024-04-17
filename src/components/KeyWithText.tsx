@@ -9,11 +9,11 @@ interface Props {
 
 const KeyWithText = ({ style, text, keyFunction }: Props) => {
   const { theme } = useThemeContext();
-  const keyClasses = `${theme.keys.keyOne} ${theme.keys.keyOneShadow} ${theme.text.white}`;
+  const keyClasses = `${theme.keys.keyOne} ${theme.keys.keyOneShadow} ${theme.text.white} ${theme.keys.keyOneHover}`;
 
   return (
     <button
-      className={`w-14 h-14 text-[20px] pt-1 ${keyClasses} leading-none rounded-md`}
+      className={`w-full h-14 text-[20px] pt-1 ${keyClasses} leading-none rounded-md md:text-[30px] md:h-16 md:rounded-xl`}
       style={style}
       onClick={keyFunction}
     >

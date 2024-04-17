@@ -41,7 +41,7 @@ function App() {
     <div
       className={`flex items-center min-h-[100vh] ${backgroundColor} font-LeagueSpartan text-[32px]`}
     >
-      <main className="flex flex-col gap-6 max-w-[500px] mx-auto">
+      <main className="flex flex-col gap-6 max-w-[750px] mx-auto">
         <Header theme={theme} textColor={textColor} />
         <Screen theme={theme} textColor={textColor} />
         <Keypad />

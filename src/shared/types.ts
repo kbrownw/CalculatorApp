@@ -6,10 +6,13 @@ export interface Theme {
   };
   keys: {
     keyOne: string;
+    keyOneHover: string;
     keyOneShadow: string;
     toggle: string;
+    toggleHover: string;
     toggleShadow: string;
     keyTwo: string;
+    keyTwoHover: string;
     keyTwoShadow: string;
   };
   text: {
@@ -29,16 +32,8 @@ export interface ThemeContextTypes {
 export interface AppContextTypes {
   screenData: string;
   setScreenData: (value: string) => void;
-  total: number;
-  setTotal: (value: number) => void;
-  appendData: (value: string) => void;
-  deleteData: () => void;
-  runArithmetic: (
-    value1: number,
-    value2: number,
-    operation: MathOperation["operation"]
-  ) => number;
-  setAndShowTotal: (value: number) => void;
+  total: string;
+  setTotal: (value: string) => void;
 }
 
 export interface MathOperation {

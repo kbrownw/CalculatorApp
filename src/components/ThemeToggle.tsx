@@ -24,7 +24,7 @@ const ThemeToggle = ({ theme, setThemeFunction, selectedTheme }: Props) => {
         <motion.div
           initial={switchPositionArr[selectedTheme]}
           animate={switchPositionArr[selectedTheme]}
-          className={`absolute top-[2px] h-4 w-4 rounded-full ${theme.keys.toggle}`}
+          className={`absolute top-[2px] h-4 w-4 rounded-full ${theme.keys.toggle} ${theme.keys.toggleHover}`}
         ></motion.div>
       </button>
     </div>

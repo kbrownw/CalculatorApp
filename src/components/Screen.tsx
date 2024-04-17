@@ -11,7 +11,7 @@ const Screen = ({ textColor, theme }: Props) => {
 
   return (
     <div
-      className={`flex justify-end p-4 rounded-xl ${theme.backgrounds.screen} ${textColor}`}
+      className={`flex justify-end p-4 rounded-xl ${theme.backgrounds.screen} ${textColor} overflow-x-scroll md:text-[56px] md:px-8`}
     >
       <p>{screenData}</p>
     </div>
