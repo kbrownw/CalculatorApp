@@ -16,18 +16,51 @@ const Keypad = () => {
   const { theme } = useThemeContext();
 
   const setAndShowTotal = (value: string) => {
-    setTotal(value);
-    setScreenData(value.toLocaleString());
+    setTotal(dataSizeFix(value));
+    setScreenData(dataSizeFix(value));
   };
 
   const appendData = (value: string) => {
-    if (!total) {
-      setScreenData(value);
-      setTotal(value);
+    if (total === "0") {
+      if (value === ".") {
+        setTotal("0.");
+        setScreenData("0.");
+      } else if (value === "0") {
+        return;
+      } else {
+        setAndShowTotal(value);
+      }
     } else {
-      let appendedTotal = Number(total.toString() + value);
-      setScreenData(appendedTotal.toLocaleString());
-      setTotal(appendedTotal.toString());
+      let appendedTotal = total + value;
+      if (value === ".") {
+        setTotal(dataSizeFix(total) + value);
+        setScreenData(dataSizeFix(total) + value);
+      } else {
+        setAndShowTotal(appendedTotal);
+      }
+    }
+  };
+
+  const dataSizeFix = (value: string) => {
+    const numberValue = Number(value);
+    if (value.length > 13) {
+      if (value.indexOf(".") === -1) {
+        return numberValue.toExponential(5);
+      } else {
+        const valueArr = value.split(".");
+        if (valueArr[0].length > 9) {
+          return numberValue.toExponential(5);
+        } else {
+          return numberValue.toFixed(13 - valueArr[0].length);
+        }
+      }
+    } else {
+      if (value.indexOf(".") === -1) {
+        return numberValue.toString();
+      } else {
+        const valueArr = value.split(".");
+        return numberValue.toFixed(valueArr[1].length);
+      }
     }
   };
 
@@ -36,8 +69,8 @@ const Keypad = () => {
       let totalArr = total.toString().split("");
       totalArr.pop();
       let newTotal = Number(totalArr.join(""));
-      setTotal(newTotal.toString());
-      setScreenData(newTotal.toLocaleString());
+      setTotal(dataSizeFix(newTotal.toString()));
+      setScreenData(dataSizeFix(newTotal.toString()));
     }
   };
 
@@ -61,14 +94,14 @@ const Keypad = () => {
 
   const numberPress = (value: string) => {
     if (operation) {
-      if (
-        lastKeyPressed === "+" ||
-        lastKeyPressed === "-" ||
-        lastKeyPressed === "*" ||
-        lastKeyPressed === "/"
-      ) {
+      if (operatorLastKey()) {
         setPrevTotal(total);
-        setAndShowTotal(value);
+        if (value === ".") {
+          setTotal("0.");
+          setScreenData("0.");
+        } else {
+          setAndShowTotal(value);
+        }
       } else {
         appendData(value);
       }
@@ -76,6 +109,19 @@ const Keypad = () => {
       appendData(value);
     }
     setLastKeyPressed(value);
+  };
+
+  const operatorLastKey = () => {
+    if (
+      lastKeyPressed === "+" ||
+      lastKeyPressed === "-" ||
+      lastKeyPressed === "*" ||
+      lastKeyPressed === "/"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const operationFunction = (newOperation: MathOperation["operation"]) => {
@@ -91,12 +137,6 @@ const Keypad = () => {
     }
     setLastKeyPressed(newOperation);
   };
-
-  useEffect(() => {
-    console.log("Previous Totla: ", prevTotal);
-    console.log("Current total: ", total);
-    console.log("Operation: ", operation);
-  }, [prevTotal, total, operation]);
 
   return (
     <div
@@ -178,8 +218,10 @@ const Keypad = () => {
       <Key
         text="."
         keyFunction={() => {
-          if (!total.toString().includes(".")) {
-            console.log("500.0", (5003930404039321.003223).toExponential(7));
+          if (operatorLastKey()) {
+            numberPress(".");
+          } else if (!total.includes(".")) {
+            numberPress(".");
           }
         }}
       />
